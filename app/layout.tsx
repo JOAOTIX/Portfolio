@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tu-portafolio.vercel.app'),
+  metadataBase: new URL('https://portfolio-nine-delta-32.vercel.app/'),
 
   title: {
     default: 'Joao Urteaga Sanchez | Full Stack Developer - Java & React',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Joao Urteaga Sanchez | Full Stack Developer',
     description: 'Especialista en Java, Spring Boot y arquitecturas modernas. Mira mis proyectos y experiencia.',
-    url: 'https://tu-portafolio.vercel.app',
+    url: 'https://portfolio-nine-delta-32.vercel.app/',
     siteName: 'Portafolio de Joao Urteaga Sanchez',
     locale: 'es_ES',
     type: 'website',
