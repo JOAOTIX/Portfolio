@@ -133,6 +133,7 @@ export default function Portfolio() {
       "TypeScript",
       "HTML & CSS",
       "Python",
+      "Php",
     ],
     "Frameworks & Librerías": [
       "Spring Boot",
@@ -140,9 +141,9 @@ export default function Portfolio() {
       "React",
       "Next.js",
       "Node.js",
+      "Express.js",
       "Bootstrap",
       "Tailwind CSS",
-      "Php",
       "WordPress",
     ],
     "Bases de Datos": ["PostgreSQL", "MySQL", "MongoDB"],
