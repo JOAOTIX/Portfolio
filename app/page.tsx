@@ -506,7 +506,7 @@ export default function Portfolio() {
                 GitHub
               </a>
               <a
-                href="qhttps://www.linkedin.com/in/joao-urteaga-sanchez-724740369?trk=contact-info"
+                href="https://www.linkedin.com/in/joao-urteaga-sanchez-724740369?trk=contact-info"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
