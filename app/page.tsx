@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { link } from "fs";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("about");
@@ -171,6 +172,64 @@ export default function Portfolio() {
         "Desarrollé e implementé un E-commerce con dashboard administrativo completo utilizando Java (Spring Boot) para el backend y React(TypeScript) + Vite para el frontend. Implementé funcionalidades clave como gestión de productos, usuarios, categorias y de cotizaciones.",
     },
   ];
+  const certificate = [
+    {
+      period: "2025",
+      title: "Programación con Java Standard",
+      company: "Fundación Telefónica del Perú",
+      description:
+        "Completé un curso de Java Standard, adquiriendo conocimientos fundamentales en programación orientada a objetos, estructuras de datos y manejo de excepciones.",
+      link: "https://drive.google.com/file/d/169nmWFgtKHefbiU97iBzNt_3RNFdlRRS/view?usp=drive_link",
+    },
+    {
+      period: "2024",
+      title: "Java Foundations",
+      company: "Oracle Academy",
+      description:
+        "Completé un curso de Java Foundations, adquiriendo conocimientos básicos en programación orientada a objetos y fundamentos de Java.",
+      link: "https://drive.google.com/file/d/1oBNs1P_xAsa97PjMhYGzEorhAEIfDDh_/view?usp=drive_link",
+    },
+    {
+      period: "2026",
+      title: "Desarrollo Back-end (nivel básico)",
+      company: "Ministerio de Trabajo y Promoción del Empleo",
+      description:
+        "Completé un curso intensivo sobre desarrollo backend con node.js y express.js, adquiriendo habilidades prácticas en la creación de APIs RESTful, seguridad con JWT y manejo de bases de datos relacionales.",
+      link: "https://drive.google.com/file/d/1Yw_NpaLRtN3NXhOD3Q3tDS4PhEdPjJSj/view?usp=drive_link",
+    },
+    {
+      period: "2024",
+      title: "Database Programming with SQL",
+      company: "Oracle Academy",
+      description:
+        "Completé un curso de Database Programming with SQL, adquiriendo habilidades en la creación y gestión de bases de datos relacionales utilizando SQL.",
+      link: "https://drive.google.com/file/d/1WDSzZ3gBG9va7IvMys33nA1gcawBidDH/view?usp=drive_link",
+    },
+    {
+      period: "2025",
+      title: "Prático de Frontend developer",
+      company: "Platzi",
+      description:
+        "Completé un curso sobre desarrollo frontend con HTML5 , CSS3 y JavaScript, adquiriendo habilidades prácticas en la creación de interfaces de usuario dinámicas y responsivas.",
+      link: "https://drive.google.com/file/d/1cnOi51bNP9YnMzvJRt9SmPoPUzg1GFea/view?usp=drive_link",
+    },
+    {
+      period: "2025",
+      title: "Frontend Developer",
+      company: "Platzi",
+      description:
+        "Completé un curso completo sobre desarrollo frontend con HTML5, CSS3 y JavaScript, adquiriendo conocimientos fundamentales en la creación de interfaces de usuario, el UX & UI, el diseño responsivo y la accesibilidad.",
+      link: "https://drive.google.com/file/d/1k_096wBkDt7NLhVBWnepk42xWpl2Ts1A/view?usp=drive_link",
+    },
+    {
+      period: "2025",
+      title: "Diseño web con HTML5 + CSS",
+      company: "Fundación Telefónica del Perú",
+      description:
+        "Completé un curso de Diseño web con HTML5 y CSS, adquiriendo conocimientos fundamentales en la creación de páginas web estáticas y estilos visuales.",
+      link: "https://drive.google.com/file/d/1WN2fvn0HjHC_2JBsVK0PG-kqilZkgOIj/view?usp=drive_link",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -226,7 +285,7 @@ export default function Portfolio() {
       <nav className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm z-40">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex gap-8 overflow-x-auto">
-            {["about", "skills", "experience", "projects"].map((section) => (
+            {["about", "skills", "experience", "projects","certificate"].map((section) => (
               <button
                 key={section}
                 onClick={() => setActiveSection(section)}
@@ -480,6 +539,38 @@ export default function Portfolio() {
                       </a>
                     </div>
                   </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        {/* Certificate Section */}
+        {activeSection === "certificate" && (
+          <section className="space-y-8 animate-in fade-in duration-500">
+            <h2 className="text-3xl font-bold">Certificados</h2>
+            <div className="space-y-6">
+              {certificate.map((cert, idx) => (
+                <div key={idx} className="border-l-2 border-primary pl-6 pb-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <h3 className="text-xl font-bold">{cert.title}</h3>
+                      <p className="text-primary font-medium">{cert.company}</p>
+                    </div>
+                    <span className="text-muted-foreground text-sm whitespace-nowrap">
+                      {cert.period}
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {cert.description}
+                  </p>
+                  <a
+                    href={cert.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 mt-5 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
+                  >
+                    Ver Certificado <ExternalLink className="w-4 h-4" />
+                  </a>
                 </div>
               ))}
             </div>
