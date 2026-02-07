@@ -246,7 +246,7 @@ export default function Portfolio() {
               </p>
               <p className="text-muted-foreground max-w-2xl leading-relaxed">
                 Especializado en crear arquitecturas robustas, escalables y
-                seguras. 2+ años desarrollando soluciones empresariales con Java
+                seguras. 1 año desarrollando soluciones empresariales con Java
                 y Spring Boot para el back y React(TypeScript) para el front.
               </p>
             </div>
@@ -311,8 +311,8 @@ export default function Portfolio() {
               <h2 className="text-3xl font-bold mb-6">Sobre Mí</h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  Soy un desarrollador backend apasionado por construir sistemas
-                  escalables, seguros y eficientes. Con 2 años de experiencia en
+                  Soy un desarrollador Full stack apasionado por construir sistemas
+                  escalables, seguros y eficientes. Con 1 año de experiencia en
                   Java (SpringBoot) para el back y React(TypeScript) para el
                   front, he participado en proyectos de diversa índole, desde
                   aplicaciones empresariales hasta plataformas de e-commerce.
