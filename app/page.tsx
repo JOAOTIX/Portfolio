@@ -87,13 +87,13 @@ export default function Portfolio() {
     },
     {
       id: 3,
-      title: "Recordatorio App – Backend",
+      title: "Recordatorio App ",
       description:
-        "API REST para gestión de tareas con sistema automatizado de notificaciones vía WhatsApp y Push.",
+        "Aplicación para gestión de tareas con sistema automatizado de notificaciones vía WhatsApp y Push.",
       challenge:
         "Los usuarios necesitaban un sistema proactivo que garantizara el cumplimiento de plazos mediante alertas multicanal automatizadas.",
       solution:
-        "Backend en Node.js/Express con workers programados para calcular vencimientos e integración con APIs de mensajería.",
+        "Backend en Node.js/Express con workers programados para calcular vencimientos e integración con APIs de mensajería y notificaciones push, todo documentado con Swagger y desplegado en un entorno Dockerizado. Todo el stack MERN (MongoDB, Express, React/Next, Node) para una solución full-stack moderna y escalable.",
       highlights: [
         {
           title: "Notificaciones Multicanal",
@@ -172,7 +172,7 @@ export default function Portfolio() {
     },
     {
       period: "2026 - actualidad",
-      title: "Soporte funcional TI",
+      title: "Asistente de Sistemas",
       company: "Movil Bus S.A.C.",
       description:
         "Soporte técnico funcional en entornos empresariales, brindando asistencia a usuarios finales, resolviendo incidencias realizando cambios mediante consultas SQL y reportando incidencias con los sistemas desarrollados.",
