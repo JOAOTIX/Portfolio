@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import Link from "next/link";
-import { link } from "fs";
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("about");
