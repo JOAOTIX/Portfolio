@@ -170,6 +170,13 @@ export default function Portfolio() {
       description:
         "Desarrollé e implementé un E-commerce con dashboard administrativo completo utilizando Java (Spring Boot) para el backend y React(TypeScript) + Vite para el frontend. Implementé funcionalidades clave como gestión de productos, usuarios, categorias y de cotizaciones.",
     },
+    {
+      period: "2026 - actualidad",
+      title: "Soporte funcional TI",
+      company: "Movil Bus S.A.C.",
+      description:
+        "Soporte técnico funcional en entornos empresariales, brindando asistencia a usuarios finales, resolviendo incidencias realizando cambios mediante consultas SQL y reportando incidencias con los sistemas desarrollados.",
+    },
   ];
 
   return (
