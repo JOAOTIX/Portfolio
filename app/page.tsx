@@ -178,7 +178,7 @@ export default function Portfolio() {
       title: "Asistente de Sistemas",
       company: "Movil Bus S.A.C.",
       description:
-        "Soporte técnico funcional en entornos empresariales, brindando asistencia a usuarios finales, resolviendo incidencias realizando cambios mediante consultas SQL y reportando incidencias con los sistemas desarrollados.",
+        "Asistente de sistemas en entornos empresariales, brindando asistencia a usuarios finales, resolviendo incidencias realizando cambios mediante consultas SQL y reportando incidencias con los sistemas desarrollados.",
     },
   ];
   const certificate = [
