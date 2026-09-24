@@ -10,42 +10,45 @@ export default function Portfolio() {
   const projects = [
     {
       id: 1,
-      title: "Clínica Odontológica – Backend",
+      title: "Clínica Odontológica Full-Stack",
       description:
-        "API REST robusta para la digitalización integral de procesos clínicos: gestión de turnos, historias clínicas y administración.",
+        "Plataforma web integral para la digitalización de procesos clínicos, centralizando la gestión de citas, roles del personal y administración de datos médicos en tiempo real.",
       challenge:
-        "Digitalizar el flujo operativo de un centro de salud, coordinando eficientemente a recepcionistas y doctores, garantizando la seguridad de datos médicos sensibles.",
+        "Reemplazar flujos de trabajo manuales con un ecosistema digital seguro que coordine de forma eficiente a administradores, recepcionistas y doctores, garantizando la inmutabilidad y privacidad de los datos sensibles.",
       solution:
-        "Backend desarrollado con Java 17 y Spring Boot  bajo una arquitectura en capas, priorizando la seguridad (Stateless) y la integridad de datos.",
+        "Arquitectura full-stack desarrollando una API REST en Spring Boot (Java 17) acoplada a un dashboard interactivo en React (TypeScript/Vite). El sistema completo fue containerizado y expuesto a producción de forma segura utilizando Cloudflare Tunnels.",
       highlights: [
         {
-          title: "Seguridad RBAC Avanzada",
+          title: "Seguridad y RBAC Dinámico",
           description:
-            "Implementación de Spring Security con JWT para control de acceso granular por roles (Admin, Recepcionista, Doctor) y protección de historias clínicas.",
+            "Implementación de Spring Security y JWT con encriptación BCrypt para un control de acceso granular. Incluye mutación segura de roles y estados desde un panel administrativo interactivo.",
         },
         {
-          title: "Lógica de Negocio & Integridad",
+          title: "Integridad y Reglas de Negocio",
           description:
-            'Algoritmos de validación de disponibilidad de turnos y estrategia de "Soft Delete" (Borrado Lógico) para preservar la trazabilidad de datos históricos.',
+            "Desarrollo de algoritmos para la validación de disponibilidad de turnos y aplicación de estrategias de 'Soft Delete' (Borrado Lógico) para mantener la trazabilidad histórica del sistema.",
         },
         {
-          title: "Infraestructura & Documentación",
+          title: "Infraestructura & Despliegue Zero-Config",
           description:
-            "Entorno totalmente containerizado con Docker Compose (App + MySQL) y documentación viva interactiva expuesta mediante Swagger UI.",
+            "Entorno 100% aislado con Docker Compose (Frontend, Backend, MySQL) expuesto a internet mediante túneles seguros, acompañado de documentación interactiva expuesta en Swagger UI.",
         },
       ],
       technologies: [
         "Java 17",
-        "Spring Boot ",
+        "Spring Boot",
         "Spring Security",
         "JWT",
-        "MySQL ",
+        "MySQL",
+        "React",
+        "TypeScript",
+        "Vite",
         "Docker",
+        "Cloudflare Tunnels",
         "Swagger",
       ],
-      github:
-        "https://github.com/Clinica-Odontologica/Clinica-odotologica-backend",
-      demo: "#",
+      github: "https://github.com/Clinica-Odontologica/Clinica-odotologica-backend",
+      demo: "#", 
     },
     {
       id: 2,

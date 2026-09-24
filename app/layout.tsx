@@ -15,19 +15,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://portfolio-nine-delta-32.vercel.app/'),
+  metadataBase: new URL('https://portfolio-nine-delta-32.vercel.app'),
 
   title: {
     default: 'Joao Urteaga Sanchez | Full Stack Developer - Java & React',
     template: '%s | Joao Urteaga Sanchez' 
   },
 
-  description: 'Portafolio profesional de Joao Urteaga Sanchez. Desarrollador Full Stack especializado en arquitecturas robustas con Java (Spring Boot), Node.js y React. Experto en seguridad y escalabilidad.',
+  description: 'Portafolio de Joao Urteaga Sanchez. Desarrollador Full Stack experto en arquitecturas robustas y escalables usando Java, Spring Boot, Node.js y React.',
 
-  keywords: ['Full Stack Developer', 'Backend Developer', 'Java', 'Spring Boot', 'React', 'Next.js', 'Node.js', 'Software Engineer', 'Portafolio'],
+  keywords: ['Full Stack Developer', 'Backend Developer', 'Java', 'Spring Boot', 'React', 'Next.js', 'Node.js', 'Software Engineer'],
 
   authors: [{ name: 'Joao Urteaga Sanchez' }],
   creator: 'Joao Urteaga Sanchez',
+
+  alternates: {
+    canonical: '/',
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 
   openGraph: {
     title: 'Joao Urteaga Sanchez | Full Stack Developer',
@@ -41,7 +57,7 @@ export const metadata: Metadata = {
         url: '/icon.png',
         width: 1200,
         height: 630,
-        alt: 'Portafolio de Desarrollo',
+        alt: 'Portafolio de Desarrollo de Joao Urteaga Sanchez',
       },
     ],
   },
