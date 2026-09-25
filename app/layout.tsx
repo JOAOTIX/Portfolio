@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: 'Joao Urteaga Sanchez | Full Stack Developer - Java & React',
     template: '%s | Joao Urteaga Sanchez' 
   },
-
+ 
   description: 'Portafolio de Joao Urteaga Sanchez. Desarrollador Full Stack experto en arquitecturas robustas y escalables usando Java, Spring Boot, Node.js y React.',
 
   keywords: ['Full Stack Developer', 'Backend Developer', 'Java', 'Spring Boot', 'React', 'Next.js', 'Node.js', 'Software Engineer'],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/icon.png',
+        url: '/icon.svg ',
         width: 1200,
         height: 630,
         alt: 'Portafolio de Desarrollo de Joao Urteaga Sanchez',
@@ -71,11 +71,11 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: '/icon.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon.png', media: '(prefers-color-scheme: dark)' },
-      { url: '/icon.png', type: 'image/png' },
+      { url: '/icon.svg', media: '(prefers-color-scheme: light)' },
+      { url: '/icon.svg', media: '(prefers-color-scheme: dark)' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
     ],
-    apple: '/apple-icon.png',
+    apple: '/apple-icon.svg',
   },
   verification: {
     google: 'IU2OzihCF-EVoKREXIpSwIwBr8G5E9u56_X-ntSpX-M',
