@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://portfolio-nine-delta-32.vercel.app'),
-
+  applicationName: 'Joao Urteaga Sanchez', 
   title: {
     default: 'Joao Urteaga Sanchez | Full Stack Developer - Java & React',
     template: '%s | Joao Urteaga Sanchez' 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
   description: 'Portafolio de Joao Urteaga Sanchez. Desarrollador Full Stack experto en arquitecturas robustas y escalables usando Java, Spring Boot, Node.js y React.',
 
-  keywords: ['Full Stack Developer', 'Backend Developer', 'Java', 'Spring Boot', 'React', 'Next.js', 'Node.js', 'Software Engineer'],
+  keywords: ['Full Stack Developer', 'Backend Developer', 'Java', 'Spring Boot', 'React', 'Next.js', 'Node.js', 'Software Engineer','Portafolio'],
 
   authors: [{ name: 'Joao Urteaga Sanchez' }],
   creator: 'Joao Urteaga Sanchez',
@@ -69,14 +69,12 @@ export const metadata: Metadata = {
     images: ['/icon.png'],
   },
 
+  // 👇 AQUÍ ESTÁ LA CORRECCIÓN
   icons: {
-    icon: [
-      { url: '/icon.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon.png', media: '(prefers-color-scheme: dark)' },
-      { url: '/icon.png', type: 'image/png' },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/icon.svg',
+    apple: '/icon.svg',
   },
+  
   verification: {
     google: 'IU2OzihCF-EVoKREXIpSwIwBr8G5E9u56_X-ntSpX-M',
   },
