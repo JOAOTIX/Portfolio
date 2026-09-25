@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/icon.svg ',
+        url: '/Icon.svg ',
         width: 1200,
         height: 630,
         alt: 'Portafolio de Desarrollo de Joao Urteaga Sanchez',
@@ -66,14 +66,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Joao Urteaga Sanchez | Full Stack Developer',
     description: 'Desarrollador especializado en Java y React. Mira mis proyectos.',
-    images: ['/icon.svg'],
+    images: ['/Icon.svg'],
   },
 
   icons: {
     icon: [
-      { url: '/icon.svg', media: '(prefers-color-scheme: light)' },
-      { url: '/icon.svg', media: '(prefers-color-scheme: dark)' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/Icon.svg', media: '(prefers-color-scheme: light)' },
+      { url: '/Icon.svg', media: '(prefers-color-scheme: dark)' },
+      { url: '/Icon.svg', type: 'image/svg+xml' },
     ],
     apple: '/apple-icon.svg',
   },
