@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Joao Urteaga Sanchez | Full Stack Developer',
     description: 'Desarrollador especializado en Java y React. Mira mis proyectos.',
-    images: ['/icon.png'],
+    images: ['/icon.svg'],
   },
 
   icons: {
