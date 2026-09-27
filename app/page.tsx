@@ -1,11 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
+const SECTIONS = ["about", "skills", "experience", "projects", "certificate"] as const;
+
+const SECTION_LABELS: Record<(typeof SECTIONS)[number], string> = {
+  about: "Sobre mí",
+  skills: "Habilidades",
+  experience: "Experiencia",
+  projects: "Proyectos",
+  certificate: "Certificados",
+};
+
 export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState("about");
+  const [activeSection, setActiveSection] = useState<string>("about");
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const projects = [
     {
@@ -48,7 +59,7 @@ export default function Portfolio() {
         "Swagger",
       ],
       github: "https://github.com/Clinica-Odontologica/Clinica-odotologica-backend",
-      demo: "#", 
+      demo: "",
     },
     {
       id: 2,
@@ -93,7 +104,7 @@ export default function Portfolio() {
     },
     {
       id: 3,
-      title: "Recordatorio App ",
+      title: "Recordatorio App",
       description:
         "Aplicación para gestión de tareas con sistema automatizado de notificaciones vía WhatsApp y Push.",
       challenge:
@@ -173,7 +184,7 @@ export default function Portfolio() {
 
   const experience = [
     {
-      period: "2024 - 2025 ",
+      period: "2024 - 2025",
       title: "Junior full Stack Developer",
       company: "Tuberias Peruanito S.A.C.",
       description:
@@ -187,6 +198,7 @@ export default function Portfolio() {
         "Asistente de sistemas en entornos empresariales, brindando asistencia a usuarios finales, resolviendo incidencias realizando cambios mediante consultas SQL y reportando incidencias con los sistemas desarrollados.",
     },
   ];
+
   const certificate = [
     {
       period: "2025",
@@ -222,10 +234,10 @@ export default function Portfolio() {
     },
     {
       period: "2025",
-      title: "Prático de Frontend developer",
+      title: "Práctico de Frontend developer",
       company: "Platzi",
       description:
-        "Completé un curso sobre desarrollo frontend con HTML5 , CSS3 y JavaScript, adquiriendo habilidades prácticas en la creación de interfaces de usuario dinámicas y responsivas.",
+        "Completé un curso sobre desarrollo frontend con HTML5, CSS3 y JavaScript, adquiriendo habilidades prácticas en la creación de interfaces de usuario dinámicas y responsivas.",
       link: "https://drive.google.com/file/d/1cnOi51bNP9YnMzvJRt9SmPoPUzg1GFea/view?usp=drive_link",
     },
     {
@@ -245,6 +257,29 @@ export default function Portfolio() {
       link: "https://drive.google.com/file/d/1WN2fvn0HjHC_2JBsVK0PG-kqilZkgOIj/view?usp=drive_link",
     },
   ];
+
+  // Resalta el enlace de navegación correspondiente a la sección visible
+  // mientras el usuario hace scroll (mejora progresiva; no afecta el
+  // renderizado inicial ni la indexación por buscadores).
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+
+    SECTIONS.forEach((id) => {
+      const el = sectionRefs.current[id];
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -296,254 +331,280 @@ export default function Portfolio() {
         </div>
       </header>
 
-      {/* Navigation */}
+      {/* Navigation: enlaces de anclaje reales (#about, #skills, ...) en vez
+          de un simple setState, así cada sección tiene su propia URL
+          navegable y compartible, y el scroll suave lo da el navegador
+          (ver `scroll-smooth` en <html>, layout.tsx). */}
       <nav className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm z-40">
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex gap-8 overflow-x-auto">
-            {["about", "skills", "experience", "projects","certificate"].map((section) => (
-              <button
+            {SECTIONS.map((section) => (
+              <a
                 key={section}
-                onClick={() => setActiveSection(section)}
-                className={`py-4 px-1 border-b-2 transition-colors capitalize whitespace-nowrap hover:cursor-pointer ${
+                href={`#${section}`}
+                aria-current={activeSection === section ? "location" : undefined}
+                className={`py-4 px-1 border-b-2 transition-colors whitespace-nowrap ${
                   activeSection === section
                     ? "border-primary text-primary"
                     : "border-transparent text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {section}
-              </button>
+                {SECTION_LABELS[section]}
+              </a>
             ))}
           </div>
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6 py-16">
+      {/* Main Content: todas las secciones se renderizan siempre en el DOM
+          (con scroll-mt-24 para compensar el nav sticky), en vez de
+          mostrarse condicionalmente según el estado. Esto es lo que hace
+          que Google pueda leer e indexar Proyectos, Experiencia,
+          Habilidades y Certificados desde la primera carga del HTML. */}
+      <main className="max-w-6xl mx-auto px-6 py-16 space-y-24">
         {/* About Section */}
-        {activeSection === "about" && (
-          <section className="space-y-12 animate-in fade-in duration-500">
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Sobre Mí</h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>
-                  Soy un desarrollador Full stack apasionado por construir sistemas
-                  escalables, seguros y eficientes. Con 1 año de experiencia en
-                  Java (SpringBoot) para el back y React(TypeScript) para el
-                  front, he participado en proyectos de diversa índole, desde
-                  aplicaciones empresariales hasta plataformas de e-commerce.
-                </p>
-                <p>
-                  Mi especialidad es la arquitectura de software: diseño
-                  patrones robustos, implemento seguridad enterprise, y optimizo
-                  performance en sistemas de alta concurrencia. Creo que el buen
-                  código es aquel que es mantenible, testeable y escalable.
-                </p>
-                <p>
-                  Aunque mi fortaleza reside en el ecosistema Java, soy
-                  pragmático a la hora de elegir herramientas. Tengo la
-                  versatilidad para desarrollar integraciones con Node.js o
-                  colaborar en el frontend con React cuando el proyecto lo
-                  requiere, manteniendo siempre una visión integral del
-                  producto.
-                </p>
-              </div>
+        <section
+          id="about"
+          ref={(el) => {
+            sectionRefs.current.about = el;
+          }}
+          className="space-y-12 scroll-mt-24"
+        >
+          <div>
+            <h2 className="text-3xl font-bold mb-6">Sobre Mí</h2>
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
+              <p>
+                Soy un desarrollador Full stack apasionado por construir sistemas
+                escalables, seguros y eficientes. Con 1 año de experiencia en
+                Java (SpringBoot) para el back y React(TypeScript) para el
+                front, he participado en proyectos de diversa índole, desde
+                aplicaciones empresariales hasta plataformas de e-commerce.
+              </p>
+              <p>
+                Mi especialidad es la arquitectura de software: diseño
+                patrones robustos, implemento seguridad enterprise, y optimizo
+                performance en sistemas de alta concurrencia. Creo que el buen
+                código es aquel que es mantenible, testeable y escalable.
+              </p>
+              <p>
+                Aunque mi fortaleza reside en el ecosistema Java, soy
+                pragmático a la hora de elegir herramientas. Tengo la
+                versatilidad para desarrollar integraciones con Node.js o
+                colaborar en el frontend con React cuando el proyecto lo
+                requiere, manteniendo siempre una visión integral del
+                producto.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-card border border-border rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-4">
+                Filosofía de Desarrollo
+              </h3>
+              <ul className="space-y-3 text-muted-foreground text-sm">
+                <li className="flex gap-3">
+                  <span className="text-primary">•</span>
+                  <span>
+                    <strong>SOLID Principles:</strong> Código desacoplado y
+                    fácil de mantener
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary">•</span>
+                  <span>
+                    <strong>Clean Code:</strong> Legibilidad y mantenibilidad
+                    como prioridad
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary">•</span>
+                  <span>
+                    <strong>Security First:</strong> Seguridad integrada desde
+                    el diseño
+                  </span>
+                </li>
+              </ul>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-4">
-                  Filosofía de Desarrollo
-                </h3>
-                <ul className="space-y-3 text-muted-foreground text-sm">
-                  <li className="flex gap-3">
-                    <span className="text-primary">•</span>
-                    <span>
-                      <strong>SOLID Principles:</strong> Código desacoplado y
-                      fácil de mantener
-                    </span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-primary">•</span>
-                    <span>
-                      <strong>Clean Code:</strong> Legibilidad y mantenibilidad
-                      como prioridad
-                    </span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-primary">•</span>
-                    <span>
-                      <strong>Security First:</strong> Seguridad integrada desde
-                      el diseño
-                    </span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-card border border-border rounded-lg p-6">
-                <h3 className="text-xl font-bold mb-4">Metodologías</h3>
-                <ul className="space-y-3 text-muted-foreground text-sm">
-                  <li className="flex gap-3">
-                    <span className="text-primary">•</span>
-                    <span>
-                      <strong>Agile/Scrum:</strong> Sprints de 2 semanas con
-                      retrospectivas
-                    </span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-primary">•</span>
-                    <span>
-                      <strong>Code Review:</strong> Mejora continua del código
-                      en equipo
-                    </span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-primary">•</span>
-                    <span>
-                      <strong>DevOps:</strong> Infraestructura como código y
-                      automatización
-                    </span>
-                  </li>
-                </ul>
-              </div>
+            <div className="bg-card border border-border rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-4">Metodologías</h3>
+              <ul className="space-y-3 text-muted-foreground text-sm">
+                <li className="flex gap-3">
+                  <span className="text-primary">•</span>
+                  <span>
+                    <strong>Agile/Scrum:</strong> Sprints de 2 semanas con
+                    retrospectivas
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary">•</span>
+                  <span>
+                    <strong>Code Review:</strong> Mejora continua del código
+                    en equipo
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary">•</span>
+                  <span>
+                    <strong>DevOps:</strong> Infraestructura como código y
+                    automatización
+                  </span>
+                </li>
+              </ul>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* Skills Section */}
-        {activeSection === "skills" && (
-          <section className="space-y-8 animate-in fade-in duration-500">
-            <h2 className="text-3xl font-bold">Habilidades Técnicas</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {Object.entries(skills).map(([category, items]) => (
-                <div
-                  key={category}
-                  className="bg-card border border-border rounded-lg p-6"
-                >
-                  <h3 className="text-lg font-bold mb-4 text-primary">
-                    {category}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-3 py-1.5 bg-secondary text-foreground rounded text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+        <section
+          id="skills"
+          ref={(el) => {
+            sectionRefs.current.skills = el;
+          }}
+          className="space-y-8 scroll-mt-24"
+        >
+          <h2 className="text-3xl font-bold">Habilidades Técnicas</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {Object.entries(skills).map(([category, items]) => (
+              <div
+                key={category}
+                className="bg-card border border-border rounded-lg p-6"
+              >
+                <h3 className="text-lg font-bold mb-4 text-primary">
+                  {category}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {items.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 bg-secondary text-foreground rounded text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
+                    >
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Experience Section */}
-        {activeSection === "experience" && (
-          <section className="space-y-8 animate-in fade-in duration-500">
-            <h2 className="text-3xl font-bold">Experiencia Profesional</h2>
-            <div className="space-y-6">
-              {experience.map((job, idx) => (
-                <div key={idx} className="border-l-2 border-primary pl-6 pb-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="text-xl font-bold">{job.title}</h3>
-                      <p className="text-primary font-medium">{job.company}</p>
-                    </div>
-                    <span className="text-muted-foreground text-sm whitespace-nowrap">
-                      {job.period}
-                    </span>
+        <section
+          id="experience"
+          ref={(el) => {
+            sectionRefs.current.experience = el;
+          }}
+          className="space-y-8 scroll-mt-24"
+        >
+          <h2 className="text-3xl font-bold">Experiencia Profesional</h2>
+          <div className="space-y-6">
+            {experience.map((job, idx) => (
+              <div key={idx} className="border-l-2 border-primary pl-6 pb-6">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="text-xl font-bold">{job.title}</h3>
+                    <p className="text-primary font-medium">{job.company}</p>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {job.description}
-                  </p>
+                  <span className="text-muted-foreground text-sm whitespace-nowrap">
+                    {job.period}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+                <p className="text-muted-foreground leading-relaxed">
+                  {job.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Projects Section */}
-        {activeSection === "projects" && (
-          <section className="space-y-8 animate-in fade-in duration-500">
-            <h2 className="text-3xl font-bold">Proyectos Destacados</h2>
-            <div className="space-y-8">
-              {projects.map((project) => (
-                <div
-                  key={project.id}
-                  className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition-colors"
-                >
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-                    <p className="text-muted-foreground mb-6 leading-relaxed">
-                      {project.description}
-                    </p>
+        <section
+          id="projects"
+          ref={(el) => {
+            sectionRefs.current.projects = el;
+          }}
+          className="space-y-8 scroll-mt-24"
+        >
+          <h2 className="text-3xl font-bold">Proyectos Destacados</h2>
+          <div className="space-y-8">
+            {projects.map((project) => (
+              <div
+                key={project.id}
+                className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition-colors"
+              >
+                <div className="p-8">
+                  <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    {project.description}
+                  </p>
 
-                    <div className="space-y-6 mb-6">
-                      <div>
-                        <h4 className="font-bold text-primary mb-2">
-                          El Desafío
-                        </h4>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {project.challenge}
-                        </p>
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-primary mb-2">
-                          La Solución
-                        </h4>
-                        <p className="text-muted-foreground leading-relaxed">
-                          {project.solution}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4 mb-6">
-                      <h4 className="font-bold text-primary">
-                        Destacados Técnicos
+                  <div className="space-y-6 mb-6">
+                    <div>
+                      <h4 className="font-bold text-primary mb-2">
+                        El Desafío
                       </h4>
-                      <div className="grid gap-4">
-                        {project.highlights.map((highlight, idx) => (
-                          <div
-                            key={idx}
-                            className="bg-secondary/30 rounded p-4 border border-border/50"
-                          >
-                            <h5 className="font-bold mb-1">
-                              {highlight.title}
-                            </h5>
-                            <p className="text-sm text-muted-foreground">
-                              {highlight.description}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {project.challenge}
+                      </p>
                     </div>
-
-                    <div className="mb-6">
-                      <h4 className="font-bold text-primary mb-3">
-                        Tecnologías
+                    <div>
+                      <h4 className="font-bold text-primary mb-2">
+                        La Solución
                       </h4>
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 bg-secondary/50 rounded text-sm text-foreground"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {project.solution}
+                      </p>
                     </div>
+                  </div>
 
-                    <div className="flex gap-4">
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
-                      >
-                        Ver Código <ExternalLink className="w-4 h-4" />
-                      </a>
+                  <div className="space-y-4 mb-6">
+                    <h4 className="font-bold text-primary">
+                      Destacados Técnicos
+                    </h4>
+                    <div className="grid gap-4">
+                      {project.highlights.map((highlight, idx) => (
+                        <div
+                          key={idx}
+                          className="bg-secondary/30 rounded p-4 border border-border/50"
+                        >
+                          <h5 className="font-bold mb-1">
+                            {highlight.title}
+                          </h5>
+                          <p className="text-sm text-muted-foreground">
+                            {highlight.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <h4 className="font-bold text-primary mb-3">
+                      Tecnologías
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 bg-secondary/50 rounded text-sm text-foreground"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
+                    >
+                      Ver Código <ExternalLink className="w-4 h-4" />
+                    </a>
+                    {project.demo && (
                       <a
                         href={project.demo}
                         target="_blank"
@@ -552,45 +613,50 @@ export default function Portfolio() {
                       >
                         Ver Demo <ExternalLink className="w-4 h-4" />
                       </a>
-                    </div>
+                    )}
                   </div>
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Certificate Section */}
-        {activeSection === "certificate" && (
-          <section className="space-y-8 animate-in fade-in duration-500">
-            <h2 className="text-3xl font-bold">Certificados</h2>
-            <div className="space-y-6">
-              {certificate.map((cert, idx) => (
-                <div key={idx} className="border-l-2 border-primary pl-6 pb-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h3 className="text-xl font-bold">{cert.title}</h3>
-                      <p className="text-primary font-medium">{cert.company}</p>
-                    </div>
-                    <span className="text-muted-foreground text-sm whitespace-nowrap">
-                      {cert.period}
-                    </span>
+        <section
+          id="certificate"
+          ref={(el) => {
+            sectionRefs.current.certificate = el;
+          }}
+          className="space-y-8 scroll-mt-24"
+        >
+          <h2 className="text-3xl font-bold">Certificados</h2>
+          <div className="space-y-6">
+            {certificate.map((cert, idx) => (
+              <div key={idx} className="border-l-2 border-primary pl-6 pb-6">
+                <div className="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 className="text-xl font-bold">{cert.title}</h3>
+                    <p className="text-primary font-medium">{cert.company}</p>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {cert.description}
-                  </p>
-                  <a
-                    href={cert.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 mt-5 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
-                  >
-                    Ver Certificado <ExternalLink className="w-4 h-4" />
-                  </a>
+                  <span className="text-muted-foreground text-sm whitespace-nowrap">
+                    {cert.period}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </section>
-        )}
+                <p className="text-muted-foreground leading-relaxed">
+                  {cert.description}
+                </p>
+                <a
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 mt-5 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
+                >
+                  Ver Certificado <ExternalLink className="w-4 h-4" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
@@ -599,7 +665,7 @@ export default function Portfolio() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div>
               <p className="text-muted-foreground">
-                © 2024 Joao Urteaga Sanchez. Junior Full Stack Developer.
+                © {new Date().getFullYear()} Joao Urteaga Sanchez. Junior Full Stack Developer.
               </p>
             </div>
             <div className="flex gap-6">

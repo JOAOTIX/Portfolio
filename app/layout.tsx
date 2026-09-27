@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: 'Joao Urteaga Sanchez | Full Stack Developer - Java & React',
     template: '%s | Joao Urteaga Sanchez' 
   },
- 
+
   description: 'Portafolio de Joao Urteaga Sanchez. Desarrollador Full Stack experto en arquitecturas robustas y escalables usando Java, Spring Boot, Node.js y React.',
 
   keywords: ['Full Stack Developer', 'Backend Developer', 'Java', 'Spring Boot', 'React', 'Next.js', 'Node.js', 'Software Engineer'],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/icon.svg ',
+        url: '/icon.svg',
         width: 1200,
         height: 630,
         alt: 'Portafolio de Desarrollo de Joao Urteaga Sanchez',
@@ -82,6 +82,28 @@ export const metadata: Metadata = {
   },
 }
 
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Joao Urteaga Sanchez',
+  jobTitle: 'Junior Full Stack Developer',
+  url: 'https://joao-urteaga-dev.vercel.app/',
+  email: 'mailto:joao.software.dev@gmail.com',
+  knowsAbout: [
+    'Java',
+    'Spring Boot',
+    'React',
+    'Next.js',
+    'Node.js',
+    'TypeScript',
+    'Docker',
+  ],
+  sameAs: [
+    'https://github.com/JOAOTIX',
+    'https://www.linkedin.com/in/joao-urteaga-sanchez-724740369',
+  ],
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -90,6 +112,10 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth"> 
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         {children}
         <Analytics />
       </body>
