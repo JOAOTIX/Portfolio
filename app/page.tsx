@@ -1,286 +1,21 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { Github, Linkedin, Mail, ExternalLink, ArrowRight } from "lucide-react";
+import { PortfolioNav } from "@/components/PortafolioNav";
+import {
+  projects,
+  skills,
+  experience,
+  certificates,
+} from "@/lib/portfolio-data";
 
-const SECTIONS = ["about", "skills", "experience", "projects", "certificate"] as const;
-
-const SECTION_LABELS: Record<(typeof SECTIONS)[number], string> = {
-  about: "Sobre mí",
-  skills: "Habilidades",
-  experience: "Experiencia",
-  projects: "Proyectos",
-  certificate: "Certificados",
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
 };
 
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState<string>("about");
-  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-
-  const projects = [
-    {
-      id: 1,
-      title: "Clínica Odontológica Full-Stack",
-      description:
-        "Plataforma web integral para la digitalización de procesos clínicos, centralizando la gestión de citas, roles del personal y administración de datos médicos en tiempo real.",
-      challenge:
-        "Reemplazar flujos de trabajo manuales con un ecosistema digital seguro que coordine de forma eficiente a administradores, recepcionistas y doctores, garantizando la inmutabilidad y privacidad de los datos sensibles.",
-      solution:
-        "Arquitectura full-stack desarrollando una API REST en Spring Boot (Java 17) acoplada a un dashboard interactivo en React (TypeScript/Vite). El sistema completo fue containerizado y expuesto a producción de forma segura utilizando Cloudflare Tunnels.",
-      highlights: [
-        {
-          title: "Seguridad y RBAC Dinámico",
-          description:
-            "Implementación de Spring Security y JWT con encriptación BCrypt para un control de acceso granular. Incluye mutación segura de roles y estados desde un panel administrativo interactivo.",
-        },
-        {
-          title: "Integridad y Reglas de Negocio",
-          description:
-            "Desarrollo de algoritmos para la validación de disponibilidad de turnos y aplicación de estrategias de 'Soft Delete' (Borrado Lógico) para mantener la trazabilidad histórica del sistema.",
-        },
-        {
-          title: "Infraestructura & Despliegue Zero-Config",
-          description:
-            "Entorno 100% aislado con Docker Compose (Frontend, Backend, MySQL) expuesto a internet mediante túneles seguros, acompañado de documentación interactiva expuesta en Swagger UI.",
-        },
-      ],
-      technologies: [
-        "Java 17",
-        "Spring Boot",
-        "Spring Security",
-        "JWT",
-        "MySQL",
-        "React",
-        "TypeScript",
-        "Vite",
-        "Docker",
-        "Cloudflare Tunnels",
-        "Swagger",
-      ],
-      github: "https://github.com/Clinica-Odontologica/Clinica-odotologica-backend",
-      demo: "",
-    },
-    {
-      id: 2,
-      title: "Tuberías Peruanito",
-      description:
-        "Plataforma administrativa para la gestión de inventarios y generación de cotizaciones de tuberías mediante una tienda online.",
-      challenge:
-        "Centralizar la gestión de productos, categorías y usuarios, permitiendo generar cotizaciones precisas de forma escalable y agnóstica al entorno.",
-      solution:
-        "Desarrollo de una aplicación web en Java con Spring Boot para el backend y el frontend con React(TS) + Vite, totalmente containerizada para garantizar consistencia entre desarrollo y producción.",
-      highlights: [
-        {
-          title: "Arquitectura Containerizada",
-          description:
-            'Orquestación completa con Docker Compose, separando la aplicación y la base de datos MySQL en contenedores aislados para un despliegue "zero-config".',
-        },
-        {
-          title: "Gestión de Cotizaciones",
-          description:
-            "Lógica de negocio robusta para la administración de catálogos y cálculo de cotizaciones, con persistencia transaccional en MySQL.",
-        },
-        {
-          title: "Documentación Interactiva",
-          description:
-            "Integración de Swagger UI para exponer, documentar y probar los endpoints de la API en tiempo real.",
-        },
-      ],
-      technologies: [
-        "Java 17",
-        "Spring Boot",
-        "Spring Security",
-        "JWT",
-        "MySQL",
-        "Docker",
-        "Swagger",
-        "React",
-        "TypeScript",
-        "Vite",
-      ],
-      github: "https://github.com/Project-Peruvian-Shop/tp-backend",
-      demo: "https://tuberiasperuanito.com/",
-    },
-    {
-      id: 3,
-      title: "Recordatorio App",
-      description:
-        "Aplicación para gestión de tareas con sistema automatizado de notificaciones vía WhatsApp y Push.",
-      challenge:
-        "Los usuarios necesitaban un sistema proactivo que garantizara el cumplimiento de plazos mediante alertas multicanal automatizadas.",
-      solution:
-        "Backend en Node.js/Express con workers programados para calcular vencimientos e integración con APIs de mensajería y notificaciones push, todo documentado con Swagger y desplegado en un entorno Dockerizado. Todo el stack MERN (MongoDB, Express, React/Next, Node) para una solución full-stack moderna y escalable.",
-      highlights: [
-        {
-          title: "Notificaciones Multicanal",
-          description:
-            "Integración compleja con WhatsApp Cloud API (Meta) y Firebase Cloud Messaging para alertas push y mensajes programados (3 días antes).",
-        },
-        {
-          title: "Arquitectura Escalable",
-          description:
-            "API documentada con Swagger/OpenAPI 3.0, autenticación JWT segura y base de datos MongoDB optimizada para documentos flexibles.",
-        },
-        {
-          title: "Infraestructura como Código",
-          description:
-            "Entorno de desarrollo y producción estandarizado mediante Docker y Docker Compose para el stack MERN (MongoDB, Express, React/Next, Node).",
-        },
-      ],
-      technologies: [
-        "Node.js 20",
-        "Express",
-        "MongoDB",
-        "WhatsApp API",
-        "Firebase FCM",
-        "Docker",
-        "Swagger",
-        "Next.js",
-        "React",
-        "TypeScript",
-      ],
-      github: "https://github.com/Recordatorio-app/Recordatorio-app-backend",
-      demo: "https://recordatorio-app.vercel.app/",
-    },
-  ];
-
-  const skills = {
-    Lenguajes: [
-      "Java (17, 21)",
-      "SQL",
-      "JavaScript",
-      "TypeScript",
-      "HTML & CSS",
-      "Python",
-      "Php",
-    ],
-    "Frameworks & Librerías": [
-      "Spring Boot",
-      "Spring Security",
-      "React",
-      "Next.js",
-      "Node.js",
-      "Express.js",
-      "Bootstrap",
-      "Tailwind CSS",
-      "WordPress",
-    ],
-    "Bases de Datos": ["PostgreSQL", "MySQL", "MongoDB"],
-    Seguridad: ["JWT", "Encryption (AES, RSA)", "CORS & CSRF"],
-    "Devops & Cloud": ["Docker", "AWS (EC2)", "Linux"],
-    "Patrones & Arquitectura": ["MVC", "SOLID", "Monolitos"],
-    Herramientas: [
-      "Git & Github",
-      "Visual Studio Code",
-      "IntelliJ IDEA",
-      "Postman",
-      "Docker Compose",
-      "Figma",
-      "Jira",
-      "MySQL Workbench",
-    ],
-  };
-
-  const experience = [
-    {
-      period: "2024 - 2025",
-      title: "Junior full Stack Developer",
-      company: "Tuberias Peruanito S.A.C.",
-      description:
-        "Desarrollé e implementé un E-commerce con dashboard administrativo completo utilizando Java (Spring Boot) para el backend y React(TypeScript) + Vite para el frontend. Implementé funcionalidades clave como gestión de productos, usuarios, categorias y de cotizaciones.",
-    },
-    {
-      period: "2026 - actualidad",
-      title: "Asistente de Sistemas",
-      company: "Movil Bus S.A.C.",
-      description:
-        "Asistente de sistemas en entornos empresariales, brindando asistencia a usuarios finales, resolviendo incidencias realizando cambios mediante consultas SQL y reportando incidencias con los sistemas desarrollados.",
-    },
-  ];
-
-  const certificate = [
-    {
-      period: "2025",
-      title: "Programación con Java Standard",
-      company: "Fundación Telefónica del Perú",
-      description:
-        "Completé un curso de Java Standard, adquiriendo conocimientos fundamentales en programación orientada a objetos, estructuras de datos y manejo de excepciones.",
-      link: "https://drive.google.com/file/d/169nmWFgtKHefbiU97iBzNt_3RNFdlRRS/view?usp=drive_link",
-    },
-    {
-      period: "2024",
-      title: "Java Foundations",
-      company: "Oracle Academy",
-      description:
-        "Completé un curso de Java Foundations, adquiriendo conocimientos básicos en programación orientada a objetos y fundamentos de Java.",
-      link: "https://drive.google.com/file/d/1oBNs1P_xAsa97PjMhYGzEorhAEIfDDh_/view?usp=drive_link",
-    },
-    {
-      period: "2026",
-      title: "Desarrollo Back-end (nivel básico)",
-      company: "Ministerio de Trabajo y Promoción del Empleo",
-      description:
-        "Completé un curso intensivo sobre desarrollo backend con node.js y express.js, adquiriendo habilidades prácticas en la creación de APIs RESTful, seguridad con JWT y manejo de bases de datos relacionales.",
-      link: "https://drive.google.com/file/d/1Yw_NpaLRtN3NXhOD3Q3tDS4PhEdPjJSj/view?usp=drive_link",
-    },
-    {
-      period: "2024",
-      title: "Database Programming with SQL",
-      company: "Oracle Academy",
-      description:
-        "Completé un curso de Database Programming with SQL, adquiriendo habilidades en la creación y gestión de bases de datos relacionales utilizando SQL.",
-      link: "https://drive.google.com/file/d/1WDSzZ3gBG9va7IvMys33nA1gcawBidDH/view?usp=drive_link",
-    },
-    {
-      period: "2025",
-      title: "Práctico de Frontend developer",
-      company: "Platzi",
-      description:
-        "Completé un curso sobre desarrollo frontend con HTML5, CSS3 y JavaScript, adquiriendo habilidades prácticas en la creación de interfaces de usuario dinámicas y responsivas.",
-      link: "https://drive.google.com/file/d/1cnOi51bNP9YnMzvJRt9SmPoPUzg1GFea/view?usp=drive_link",
-    },
-    {
-      period: "2025",
-      title: "Frontend Developer",
-      company: "Platzi",
-      description:
-        "Completé un curso completo sobre desarrollo frontend con HTML5, CSS3 y JavaScript, adquiriendo conocimientos fundamentales en la creación de interfaces de usuario, el UX & UI, el diseño responsivo y la accesibilidad.",
-      link: "https://drive.google.com/file/d/1k_096wBkDt7NLhVBWnepk42xWpl2Ts1A/view?usp=drive_link",
-    },
-    {
-      period: "2025",
-      title: "Diseño web con HTML5 + CSS",
-      company: "Fundación Telefónica del Perú",
-      description:
-        "Completé un curso de Diseño web con HTML5 y CSS, adquiriendo conocimientos fundamentales en la creación de páginas web estáticas y estilos visuales.",
-      link: "https://drive.google.com/file/d/1WN2fvn0HjHC_2JBsVK0PG-kqilZkgOIj/view?usp=drive_link",
-    },
-  ];
-
-  // Resalta el enlace de navegación correspondiente a la sección visible
-  // mientras el usuario hace scroll (mejora progresiva; no afecta el
-  // renderizado inicial ni la indexación por buscadores).
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
-    );
-
-    SECTIONS.forEach((id) => {
-      const el = sectionRefs.current[id];
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
+export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
@@ -292,16 +27,17 @@ export default function Portfolio() {
                 Joao Urteaga Sanchez
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground mb-6">
-                Junior Full Stack Developer
+                Full Stack Developer
               </p>
               <p className="text-muted-foreground max-w-2xl leading-relaxed">
                 Especializado en crear arquitecturas robustas, escalables y
-                seguras. 1 año desarrollando soluciones empresariales con Java
-                y Spring Boot para el back y React(TypeScript) para el front.
+                seguras. Desarrollando soluciones empresariales con Java y
+                Spring Boot para el backend y React (TypeScript) para el
+                frontend.
               </p>
             </div>
             <div className="flex gap-4">
-              <Link
+              <a
                 href="https://github.com/JOAOTIX"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -309,8 +45,8 @@ export default function Portfolio() {
                 aria-label="GitHub"
               >
                 <Github className="w-6 h-6" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://www.linkedin.com/in/joao-urteaga-sanchez-724740369"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -318,81 +54,46 @@ export default function Portfolio() {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-6 h-6" />
-              </Link>
-              <Link
+              </a>
+              <a
                 href="mailto:joao.software.dev@gmail.com"
                 className="p-2 rounded-lg hover:bg-secondary transition-colors"
                 aria-label="Email"
               >
                 <Mail className="w-6 h-6" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Navigation: enlaces de anclaje reales (#about, #skills, ...) en vez
-          de un simple setState, así cada sección tiene su propia URL
-          navegable y compartible, y el scroll suave lo da el navegador
-          (ver `scroll-smooth` en <html>, layout.tsx). */}
-      <nav className="sticky top-0 border-b border-border bg-background/80 backdrop-blur-sm z-40">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex gap-8 overflow-x-auto">
-            {SECTIONS.map((section) => (
-              <a
-                key={section}
-                href={`#${section}`}
-                aria-current={activeSection === section ? "location" : undefined}
-                className={`py-4 px-1 border-b-2 transition-colors whitespace-nowrap ${
-                  activeSection === section
-                    ? "border-primary text-primary"
-                    : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {SECTION_LABELS[section]}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
+      <PortfolioNav />
 
-      {/* Main Content: todas las secciones se renderizan siempre en el DOM
-          (con scroll-mt-24 para compensar el nav sticky), en vez de
-          mostrarse condicionalmente según el estado. Esto es lo que hace
-          que Google pueda leer e indexar Proyectos, Experiencia,
-          Habilidades y Certificados desde la primera carga del HTML. */}
       <main className="max-w-6xl mx-auto px-6 py-16 space-y-24">
         {/* About Section */}
-        <section
-          id="about"
-          ref={(el) => {
-            sectionRefs.current.about = el;
-          }}
-          className="space-y-12 scroll-mt-24"
-        >
+        <section id="about" className="space-y-12 scroll-mt-24">
           <div>
             <h2 className="text-3xl font-bold mb-6">Sobre Mí</h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Soy un desarrollador Full stack apasionado por construir sistemas
-                escalables, seguros y eficientes. Con 1 año de experiencia en
-                Java (SpringBoot) para el back y React(TypeScript) para el
-                front, he participado en proyectos de diversa índole, desde
+                Soy un desarrollador Full Stack apasionado por construir
+                sistemas escalables, seguros y eficientes. Con experiencia en
+                Java (Spring Boot) para el backend y React (TypeScript) para el
+                frontend, he participado en proyectos de diversa índole, desde
                 aplicaciones empresariales hasta plataformas de e-commerce.
               </p>
               <p>
-                Mi especialidad es la arquitectura de software: diseño
-                patrones robustos, implemento seguridad enterprise, y optimizo
-                performance en sistemas de alta concurrencia. Creo que el buen
-                código es aquel que es mantenible, testeable y escalable.
+                Mi especialidad es la arquitectura de software: diseño patrones
+                robustos, implemento seguridad enterprise y optimizo performance
+                en sistemas de alta concurrencia. Creo que el buen código es
+                aquel que es mantenible, testeable y escalable.
               </p>
               <p>
-                Aunque mi fortaleza reside en el ecosistema Java, soy
-                pragmático a la hora de elegir herramientas. Tengo la
-                versatilidad para desarrollar integraciones con Node.js o
-                colaborar en el frontend con React cuando el proyecto lo
-                requiere, manteniendo siempre una visión integral del
-                producto.
+                Aunque mi fortaleza reside en el ecosistema Java, soy pragmático
+                a la hora de elegir herramientas. Tengo la versatilidad para
+                desarrollar integraciones con Node.js o colaborar en el frontend
+                con React y Next.js cuando el proyecto lo requiere, manteniendo
+                siempre una visión integral del producto.
               </p>
             </div>
           </div>
@@ -440,8 +141,8 @@ export default function Portfolio() {
                 <li className="flex gap-3">
                   <span className="text-primary">•</span>
                   <span>
-                    <strong>Code Review:</strong> Mejora continua del código
-                    en equipo
+                    <strong>Code Review:</strong> Mejora continua del código en
+                    equipo
                   </span>
                 </li>
                 <li className="flex gap-3">
@@ -457,13 +158,7 @@ export default function Portfolio() {
         </section>
 
         {/* Skills Section */}
-        <section
-          id="skills"
-          ref={(el) => {
-            sectionRefs.current.skills = el;
-          }}
-          className="space-y-8 scroll-mt-24"
-        >
+        <section id="skills" className="space-y-8 scroll-mt-24">
           <h2 className="text-3xl font-bold">Habilidades Técnicas</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {Object.entries(skills).map(([category, items]) => (
@@ -490,13 +185,7 @@ export default function Portfolio() {
         </section>
 
         {/* Experience Section */}
-        <section
-          id="experience"
-          ref={(el) => {
-            sectionRefs.current.experience = el;
-          }}
-          className="space-y-8 scroll-mt-24"
-        >
+        <section id="experience" className="space-y-8 scroll-mt-24">
           <h2 className="text-3xl font-bold">Experiencia Profesional</h2>
           <div className="space-y-6">
             {experience.map((job, idx) => (
@@ -519,22 +208,23 @@ export default function Portfolio() {
         </section>
 
         {/* Projects Section */}
-        <section
-          id="projects"
-          ref={(el) => {
-            sectionRefs.current.projects = el;
-          }}
-          className="space-y-8 scroll-mt-24"
-        >
+        <section id="projects" className="space-y-8 scroll-mt-24">
           <h2 className="text-3xl font-bold">Proyectos Destacados</h2>
           <div className="space-y-8">
             {projects.map((project) => (
-              <div
+              <article
                 key={project.id}
                 className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary transition-colors"
               >
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
+                  <h3 className="text-2xl font-bold mb-3">
+                    <Link
+                      href={`/proyectos/${project.slug}`}
+                      className="hover:text-primary transition-colors"
+                    >
+                      {project.title}
+                    </Link>
+                  </h3>
                   <p className="text-muted-foreground mb-6 leading-relaxed">
                     {project.description}
                   </p>
@@ -568,9 +258,7 @@ export default function Portfolio() {
                           key={idx}
                           className="bg-secondary/30 rounded p-4 border border-border/50"
                         >
-                          <h5 className="font-bold mb-1">
-                            {highlight.title}
-                          </h5>
+                          <h5 className="font-bold mb-1">{highlight.title}</h5>
                           <p className="text-sm text-muted-foreground">
                             {highlight.description}
                           </p>
@@ -580,9 +268,7 @@ export default function Portfolio() {
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-bold text-primary mb-3">
-                      Tecnologías
-                    </h4>
+                    <h4 className="font-bold text-primary mb-3">Tecnologías</h4>
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map((tech) => (
                         <span
@@ -595,12 +281,18 @@ export default function Portfolio() {
                     </div>
                   </div>
 
-                  <div className="flex gap-4">
+                  <div className="flex flex-wrap gap-4">
+                    <Link
+                      href={`/proyectos/${project.slug}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
+                    >
+                      Ver Caso de Estudio <ArrowRight className="w-4 h-4" />
+                    </Link>
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded font-medium hover:opacity-90 transition-opacity"
+                      className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded font-medium hover:border-primary transition-colors"
                     >
                       Ver Código <ExternalLink className="w-4 h-4" />
                     </a>
@@ -616,22 +308,16 @@ export default function Portfolio() {
                     )}
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </section>
 
         {/* Certificate Section */}
-        <section
-          id="certificate"
-          ref={(el) => {
-            sectionRefs.current.certificate = el;
-          }}
-          className="space-y-8 scroll-mt-24"
-        >
+        <section id="certificate" className="space-y-8 scroll-mt-24">
           <h2 className="text-3xl font-bold">Certificados</h2>
           <div className="space-y-6">
-            {certificate.map((cert, idx) => (
+            {certificates.map((cert, idx) => (
               <div key={idx} className="border-l-2 border-primary pl-6 pb-6">
                 <div className="flex justify-between items-start mb-2">
                   <div>
@@ -665,7 +351,8 @@ export default function Portfolio() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div>
               <p className="text-muted-foreground">
-                © {new Date().getFullYear()} Joao Urteaga Sanchez. Junior Full Stack Developer.
+                © {new Date().getFullYear()} Joao Urteaga Sanchez. Full Stack
+                Developer.
               </p>
             </div>
             <div className="flex gap-6">
@@ -678,7 +365,7 @@ export default function Portfolio() {
                 GitHub
               </a>
               <a
-                href="https://www.linkedin.com/in/joao-urteaga-sanchez-724740369?trk=contact-info"
+                href="https://www.linkedin.com/in/joao-urteaga-sanchez-724740369"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
