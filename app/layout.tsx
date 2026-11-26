@@ -117,6 +117,13 @@ const profilePageJsonLd = {
     ],
   },
 };
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Joao Urteaga Sanchez",
+  alternateName: "Joao Urteaga Dev",
+  url: "https://joao-urteaga-dev.vercel.app/",
+};
 
 export default function RootLayout({
   children,
@@ -131,6 +138,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
         {children}
         <Analytics />
